@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View view) {
-                fl.blinkFlash();
+                fl.blinkFlash(10);
             }
         });
     }

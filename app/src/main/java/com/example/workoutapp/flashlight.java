@@ -18,20 +18,42 @@ public class flashlight {
     private CameraManager mCameraManager;
     private String mCameraId;
     private Context context;
-    private int flashDuration;
+
+    /*
+    return the state of flash light see if it is on or off
+    @return onOff state
+     */
     public boolean getOnOff(){
         return onOff;
     }
+
+    /*
+    Since turn on involves with control of flash light thus
+    it needs to denote that the annotated element should only be called on the given API level or higher.
+    This method turns on the light
+     */
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void turnOn(){
         onOff = true;
         update();
     }
+
+    /*
+    Since turn off involves with control of flash light thus
+    it needs to denote that the annotated element should only be called on the given API level or higher.
+    This method turns off the light
+     */
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void turnOff(){
         onOff = false;
         update();
     }
+
+    /*
+    Since update involves with control of flash light thus
+    it needs to denote that the annotated element should only be called on the given API level or higher.
+    This method uses the state of onOff to decide if turns on or turns off the light
+     */
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void update() {
         if(onOff){
@@ -49,13 +71,24 @@ public class flashlight {
             }
         }
     }
+
+    /*
+    @return if flash light is available on the current using device
+     */
     public boolean getIsFlashAvailable(){
         return isFlashAvailable;
     }
+
+    /*
+    Since blinkFlash involves with control of flash light thus
+    it needs to denote that the annotated element should only be called on the given API level or higher.
+    This method blinks the flashlight
+    @param int for the seconds you want it to blink
+     */
     @RequiresApi(api = Build.VERSION_CODES.M)
-    public void blinkFlash(){
+    public void blinkFlash(int duration){
         long blinkDelay =100; //Delay in ms
-        flashDuration = 10;
+        int flashDuration = duration*10;
         for (int i = 0; i < flashDuration; i++) {
             onOff = !onOff;
             update();
@@ -66,10 +99,12 @@ public class flashlight {
             }
         }
     }
-    public void setFlashDuration(int duration){
-        //the duration will be in seconds
-        flashDuration = duration*10;
-    }
+
+
+    /*
+    This is the constructor method for the class
+    @param the context for the class
+     */
     public flashlight(Context context){
         this.context = context;
         this.onOff = false;
