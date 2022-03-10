@@ -18,6 +18,7 @@ public class flashlight {
     private CameraManager mCameraManager;
     private String mCameraId;
     private Context context;
+    private int flashDuration;
     public boolean getOnOff(){
         return onOff;
     }
@@ -50,6 +51,24 @@ public class flashlight {
     }
     public boolean getIsFlashAvailable(){
         return isFlashAvailable;
+    }
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public void blinkFlash(){
+        long blinkDelay =100; //Delay in ms
+        flashDuration = 10;
+        for (int i = 0; i < flashDuration; i++) {
+            onOff = !onOff;
+            update();
+            try {
+                Thread.sleep(blinkDelay);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    public void setFlashDuration(int duration){
+        //the duration will be in seconds
+        flashDuration = duration*10;
     }
     public flashlight(Context context){
         this.context = context;
