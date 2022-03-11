@@ -15,7 +15,7 @@ import java.text.DecimalFormat;
 
 public class accelerometer {
     private float lastX, lastY, lastZ;  //old coordinate positions from accelerometer, needed to calculate delta.
-    private float acceleration;
+    private float acceleration; //this acceleration will be calculated later and used to compare to SIGNIFICANT_SHAKE
     private float currentAcceleration;
     private float lastAcceleration;
     private flashlight fl;
