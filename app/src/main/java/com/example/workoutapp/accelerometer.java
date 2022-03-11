@@ -1,10 +1,16 @@
 package com.example.workoutapp;
 
+import com.example.workoutapp.flashlight.*;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorManager;
 import android.hardware.SensorEventListener;
+import android.os.Build;
+import android.util.Log;
+
+import androidx.annotation.RequiresApi;
+
 import java.text.DecimalFormat;
 
 public class accelerometer {
@@ -12,7 +18,8 @@ public class accelerometer {
     private float acceleration;
     private float currentAcceleration;
     private float lastAcceleration;
-    private int SIGNIFICANT_SHAKE = 1000;
+    private flashlight fl;
+    private int SIGNIFICANT_SHAKE = 100000;
     private Context context;
     private DecimalFormat df;
 
@@ -31,8 +38,23 @@ public class accelerometer {
                 sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 SensorManager.SENSOR_DELAY_NORMAL);   //don't set this too high, otw you will kill user's battery.
     }
+    public void disableAccelerometerListening() {
+        //Disabling Sensor Event Listener is two step process.
+        //1. Retrieve SensorManager Reference from the activity.
+        //2. call unregisterListener to stop listening for sensor events
+        //THis will prevent interruptions of other Apps and save battery.
+        // get the SensorManager
+        SensorManager sensorManager =
+                (SensorManager) context.getSystemService(
+                        Context.SENSOR_SERVICE);
 
-    private final SensorEventListener sensorEventListener = new SensorEventListener() {
+        // stop listening for accelerometer events
+        sensorManager.unregisterListener(sensorEventListener,
+                sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER));
+    }
+
+    public final SensorEventListener sensorEventListener = new SensorEventListener() {
+        @RequiresApi(api = Build.VERSION_CODES.M)
         @Override
         public void onSensorChanged(SensorEvent event) {
             // get x, y, and z values for the SensorEvent
@@ -50,6 +72,12 @@ public class accelerometer {
             acceleration = currentAcceleration *  (currentAcceleration - lastAcceleration);
             // if the acceleration is above a certain threshold
             if (acceleration > SIGNIFICANT_SHAKE) {
+                Log.d("haowei","call blink");
+                fl.blinkFlash(2);
+                Log.d("haowei","called blink");
+                //df.format(x-lastX);
+                //df.format(y-lastY);
+                //df.format(z-lastZ);
             }
             lastX = x;
             lastY = y;
@@ -62,10 +90,12 @@ public class accelerometer {
         }
     };
 
-    public accelerometer(Context context){
+    public accelerometer(Context context, flashlight fl){
         this.context = context;
+        this.fl = fl;
         acceleration = 0.00f;                                         //Initializing Acceleration data.
         currentAcceleration = SensorManager.GRAVITY_EARTH;            //We live on Earth.
         lastAcceleration = SensorManager.GRAVITY_EARTH;               //Ctrl-Click to see where else we could use our phone.
+        enableAccelerometerListening();
     }
 }
