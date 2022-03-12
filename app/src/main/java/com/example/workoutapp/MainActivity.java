@@ -10,10 +10,13 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TableRow;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.workoutapp.flashlight.*;
 
@@ -22,10 +25,11 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     private flashlight fl;
     private accelerometer am;
-    private Button btnEasy,btnMedian,btnHard;
+    private Button btnStart,btnStop;
+    private TextView stepCount;
     private ListView optionList;
-    private ArrayList<Button> options = new ArrayList<Button>();
-    private ArrayAdapter<Button> adapter;
+    private static final String[] items={"Easy", "Median", "Hard"};
+    private ArrayAdapter<String> adapter;
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,33 +37,33 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         fl = new flashlight(this);
         am = new accelerometer(this,fl);
+        btnStart = findViewById(R.id.start);
+        btnStop = findViewById(R.id.stop);
+        stepCount = findViewById(R.id.stepCount);
 
-        btnEasy = new Button(MainActivity.this);
-        btnMedian = new Button(MainActivity.this);
-        btnHard = new Button(MainActivity.this);
-        btnEasy.setText("Easy");
-        btnEasy.setTag("btnEasy");
-        btnEasy.setTextSize(5);
-        btnEasy.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, Gravity.CENTER_VERTICAL));
-        btnMedian.setText("Median");
-        btnMedian.setTag("btnMedian");
-        btnMedian.setTextSize(5);
-        btnMedian.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, Gravity.CENTER_VERTICAL));
-        btnHard.setText("Hard");
-        btnHard.setTag("btnHard");
-        btnHard.setTextSize(5);
-        btnHard.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, Gravity.CENTER_VERTICAL));
-
-
-        btnEasy.setOnClickListener(view -> {
-            fl.blinkFlash(1);
-        });
-        options.add(btnEasy);
-        options.add(btnMedian);
-        options.add(btnHard);
         optionList = findViewById(R.id.list);
-        adapter = new ArrayAdapter<Button>(this, android.R.layout.simple_list_item_1, options);
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
         optionList.setAdapter(adapter);
+
+        optionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String selectedItem = (String) adapterView.getItemAtPosition(i);
+                switch (i) {
+                    case 0:
+                        Toast.makeText(MainActivity.this,R.string.easy,Toast.LENGTH_SHORT).show();
+                        break;
+                    case 1:
+                        Toast.makeText(MainActivity.this,R.string.median,Toast.LENGTH_SHORT).show();
+                        break;
+                    case 2:
+                        Toast.makeText(MainActivity.this,R.string.hard,Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
     }
 
 }
