@@ -48,76 +48,69 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String selectedItem = (String) adapterView.getItemAtPosition(i);
-                if(start==true){
-                    Toast.makeText(MainActivity.this,R.string.haventStopped,Toast.LENGTH_SHORT).show();
-                }else{
-                    switch (i) {
-                        case 0:
-                            currentMode = 1;
-                            Toast.makeText(MainActivity.this,R.string.easy,Toast.LENGTH_SHORT).show();
-                            am.setStep(0);
-                            am.setForce(70000);
-                            stepCount.setText("Current Steps: " + am.getStep());
-                            break;
-                        case 1:
-                            currentMode = 2;
-                            Toast.makeText(MainActivity.this,R.string.median,Toast.LENGTH_SHORT).show();
-                            am.setStep(0);
-                            am.setForce(100000);
-                            stepCount.setText("Current Steps: " + am.getStep());
-                            break;
-                        case 2:
-                            currentMode = 3;
-                            Toast.makeText(MainActivity.this,R.string.hard,Toast.LENGTH_SHORT).show();
-                            am.setStep(0);
-                            am.setForce(130000);
-                            stepCount.setText("Current Steps: " + am.getStep());
-                            break;
-                        default:
-                            break;
-                    }
+                switch (i) {
+                    case 0:
+                        currentMode = 1;
+                        Toast.makeText(MainActivity.this,R.string.easy,Toast.LENGTH_SHORT).show();
+                        am.setStep(0);
+                        am.setForce(70000);
+                        stepCount.setText("Current Steps: " + am.getStep());
+                        break;
+                    case 1:
+                        currentMode = 2;
+                        Toast.makeText(MainActivity.this,R.string.median,Toast.LENGTH_SHORT).show();
+                        am.setStep(0);
+                        am.setForce(100000);
+                        stepCount.setText("Current Steps: " + am.getStep());
+                        break;
+                    case 2:
+                        currentMode = 3;
+                        Toast.makeText(MainActivity.this,R.string.hard,Toast.LENGTH_SHORT).show();
+                        am.setStep(0);
+                        am.setForce(130000);
+                        stepCount.setText("Current Steps: " + am.getStep());
+                        break;
+                    default:
+                         break;
                 }
+                btnStart.setEnabled(true);
             }
         });
+        btnStart.setEnabled(false);
         btnStop.setEnabled(false);
         btnStart.setOnClickListener(view->{
             if(currentMode==0){
                 Toast.makeText(MainActivity.this,R.string.noselectionwarning,Toast.LENGTH_SHORT).show();
             }
             else {
-                if (start == false) {
-                    btnStop.setEnabled(true);
-                    start = true;
-                    am.setStep(0);
-                    stepCount.setText("Current Steps: " + am.getStep());
-                    am.enableAccelerometerListening();
-                    btnStart.setEnabled(false);
-                }
+                btnStop.setEnabled(true);
+                start = true;
+                am.setStep(0);
+                stepCount.setText("Current Steps: " + am.getStep());
+                am.enableAccelerometerListening();
+                btnStart.setEnabled(false);
+                optionList.setEnabled(false);
             }
         });
         btnStop.setOnClickListener(view->{
-            if(start==true){
-                btnStart.setEnabled(true);
-                start = false;
-                currentMode = 0;
-                am.setStep(0);
-                am.enableAccelerometerListening();
-                if(mp1.isPlaying()){
-                    mp1.pause();
-                    mp1.seekTo(0);
-                }
-                if(mp2.isPlaying()){
-                    mp2.pause();
-                    mp2.seekTo(60000);
-                }
-                if(mp3.isPlaying()){
-                    mp3.pause();
-                    mp3.seekTo(0);
-                }
-                btnStop.setEnabled(false);
-            }else{
-                Toast.makeText(MainActivity.this,R.string.haventstarted,Toast.LENGTH_SHORT).show();
+            start = false;
+            currentMode = 0;
+            am.setStep(0);
+            am.enableAccelerometerListening();
+            if(mp1.isPlaying()){
+                mp1.pause();
+                mp1.seekTo(0);
             }
+            if(mp2.isPlaying()){
+                mp2.pause();
+                mp2.seekTo(60000);
+            }
+            if(mp3.isPlaying()){
+                mp3.pause();
+                mp3.seekTo(0);
+            }
+            btnStop.setEnabled(false);
+            optionList.setEnabled(true);
         });
 
         Handler handler =new Handler();
