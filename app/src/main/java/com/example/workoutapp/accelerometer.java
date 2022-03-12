@@ -19,7 +19,7 @@ public class accelerometer {
     private float currentAcceleration;
     private float lastAcceleration;
     private flashlight fl;
-    private int SIGNIFICANT_SHAKE = 30000;
+    private int SIGNIFICANT_SHAKE = 100000;
     private Context context;
     private DecimalFormat df;
     private boolean flashMode;

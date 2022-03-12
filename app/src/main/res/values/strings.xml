@@ -5,4 +5,5 @@
     <string name="hard">Hard Mode Selected</string>
     <string name="noselectionwarning">You have not selected a mode yet</string>
     <string name="haventstarted">You have not started yet, why stop?</string>
+    <string name="haventStopped">You have not stopped yet, select after workout stop</string>
 </resources>

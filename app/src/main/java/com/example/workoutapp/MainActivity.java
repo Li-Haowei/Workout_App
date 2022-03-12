@@ -42,21 +42,31 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String selectedItem = (String) adapterView.getItemAtPosition(i);
-                switch (i) {
-                    case 0:
-                        currentMode = 1;
-                        Toast.makeText(MainActivity.this,R.string.easy,Toast.LENGTH_SHORT).show();
-                        break;
-                    case 1:
-                        currentMode = 2;
-                        Toast.makeText(MainActivity.this,R.string.median,Toast.LENGTH_SHORT).show();
-                        break;
-                    case 2:
-                        currentMode = 3;
-                        Toast.makeText(MainActivity.this,R.string.hard,Toast.LENGTH_SHORT).show();
-                        break;
-                    default:
-                        break;
+                if(start==true){
+                    Toast.makeText(MainActivity.this,R.string.haventStopped,Toast.LENGTH_SHORT).show();
+                }else{
+                    switch (i) {
+                        case 0:
+                            currentMode = 1;
+                            Toast.makeText(MainActivity.this,R.string.easy,Toast.LENGTH_SHORT).show();
+                            am.setStep(0);
+                            stepCount.setText("Current Steps: " + am.getStep());
+                            break;
+                        case 1:
+                            currentMode = 2;
+                            Toast.makeText(MainActivity.this,R.string.median,Toast.LENGTH_SHORT).show();
+                            am.setStep(0);
+                            stepCount.setText("Current Steps: " + am.getStep());
+                            break;
+                        case 2:
+                            currentMode = 3;
+                            Toast.makeText(MainActivity.this,R.string.hard,Toast.LENGTH_SHORT).show();
+                            am.setStep(0);
+                            stepCount.setText("Current Steps: " + am.getStep());
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
         });
