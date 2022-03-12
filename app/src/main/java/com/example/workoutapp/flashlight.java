@@ -99,6 +99,20 @@ public class flashlight {
             }
         }
     }
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public void blinkFlash(float duration){
+        long blinkDelay =100; //Delay in ms
+        int flashDuration = (int)duration*10;
+        for (int i = 0; i < flashDuration; i++) {
+            onOff = !onOff;
+            update();
+            try {
+                Thread.sleep(blinkDelay);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 
     /*

@@ -72,9 +72,7 @@ public class accelerometer {
             acceleration = currentAcceleration *  (currentAcceleration - lastAcceleration);
             // if the acceleration is above a certain threshold
             if (acceleration > SIGNIFICANT_SHAKE) {
-                Log.d("haowei","call blink");
-                fl.blinkFlash(2);
-                Log.d("haowei","called blink");
+                fl.blinkFlash(1);
                 //df.format(x-lastX);
                 //df.format(y-lastY);
                 //df.format(z-lastZ);
