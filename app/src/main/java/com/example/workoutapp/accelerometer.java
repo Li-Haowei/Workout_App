@@ -74,7 +74,11 @@ public class accelerometer {
             // if the acceleration is above a certain threshold
             if (acceleration > SIGNIFICANT_SHAKE) {
                 step++;
-                if(flashMode) fl.blinkFlash(1);
+                if(flashMode) {
+                    for (int i = 0; i < 4; i++) {
+                        fl.negate();
+                    }
+                }
                 //df.format(x-lastX);
                 //df.format(y-lastY);
                 //df.format(z-lastZ);
@@ -94,6 +98,9 @@ public class accelerometer {
     }
     public void setStep(int i){
         step = i;
+    }
+    public void setForce(int i){
+        SIGNIFICANT_SHAKE = i;
     }
     public void flashMode(boolean bool){
         flashMode = bool;

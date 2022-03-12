@@ -113,7 +113,14 @@ public class flashlight {
             }
         }
     }
-
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public void negate(){
+        if(onOff){
+            turnOff();
+        }else{
+            turnOn();
+        }
+    }
 
     /*
     This is the constructor method for the class
