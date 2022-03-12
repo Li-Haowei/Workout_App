@@ -73,9 +73,7 @@ public class accelerometer {
             acceleration = currentAcceleration *  (currentAcceleration - lastAcceleration);
             // if the acceleration is above a certain threshold
             if (acceleration > SIGNIFICANT_SHAKE) {
-
                 step++;
-                Log.d("creation",""+step);
                 if(flashMode) fl.blinkFlash(1);
                 //df.format(x-lastX);
                 //df.format(y-lastY);

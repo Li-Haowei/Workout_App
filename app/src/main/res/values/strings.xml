@@ -3,4 +3,6 @@
     <string name="easy">Easy Mode Selected</string>
     <string name="median">Median Mode Selected</string>
     <string name="hard">Hard Mode Selected</string>
+    <string name="noselectionwarning">You have not selected a mode yet</string>
+    <string name="haventstarted">You have not started yet, why stop?</string>
 </resources>
