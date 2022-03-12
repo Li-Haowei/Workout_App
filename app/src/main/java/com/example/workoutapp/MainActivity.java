@@ -151,6 +151,27 @@ public class MainActivity extends AppCompatActivity {
                             }
                             break;
                     }
+                    if (am.getStep() > 100) {
+                        stepCount.setText("Current Steps: "+ 100);
+                        start = false;
+                        currentMode = 0;
+                        am.setStep(0);
+                        am.enableAccelerometerListening();
+                        if(mp1.isPlaying()){
+                            mp1.pause();
+                            mp1.seekTo(0);
+                        }
+                        if(mp2.isPlaying()){
+                            mp2.pause();
+                            mp2.seekTo(60000);
+                        }
+                        if(mp3.isPlaying()){
+                            mp3.pause();
+                            mp3.seekTo(0);
+                        }
+                        btnStop.setEnabled(false);
+                        optionList.setEnabled(true);
+                    }
                 }
             }
         };
