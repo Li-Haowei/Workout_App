@@ -19,10 +19,11 @@ public class accelerometer {
     private float currentAcceleration;
     private float lastAcceleration;
     private flashlight fl;
-    private int SIGNIFICANT_SHAKE = 100000;
+    private int SIGNIFICANT_SHAKE = 30000;
     private Context context;
     private DecimalFormat df;
-
+    private boolean flashMode;
+    private int step;
     // enable listening for accelerometer events
     public void enableAccelerometerListening() {
         // The Activity has a SensorManager Reference.
@@ -72,7 +73,10 @@ public class accelerometer {
             acceleration = currentAcceleration *  (currentAcceleration - lastAcceleration);
             // if the acceleration is above a certain threshold
             if (acceleration > SIGNIFICANT_SHAKE) {
-                fl.blinkFlash(1);
+
+                step++;
+                Log.d("creation",""+step);
+                if(flashMode) fl.blinkFlash(1);
                 //df.format(x-lastX);
                 //df.format(y-lastY);
                 //df.format(z-lastZ);
@@ -87,10 +91,20 @@ public class accelerometer {
 
         }
     };
-
+    public int getStep(){
+        return step;
+    }
+    public void setStep(int i){
+        step = i;
+    }
+    public void flashMode(boolean bool){
+        flashMode = bool;
+    }
     public accelerometer(Context context, flashlight fl){
         this.context = context;
         this.fl = fl;
+        flashMode = false;
+        step = 0;
         acceleration = 0.00f;                                         //Initializing Acceleration data.
         currentAcceleration = SensorManager.GRAVITY_EARTH;            //We live on Earth.
         lastAcceleration = SensorManager.GRAVITY_EARTH;               //Ctrl-Click to see where else we could use our phone.

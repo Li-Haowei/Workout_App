@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -21,11 +22,15 @@ import android.widget.Toast;
 import com.example.workoutapp.flashlight.*;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
     private flashlight fl;
     private accelerometer am;
     private Button btnStart,btnStop;
+    private Boolean start;
     private TextView stepCount;
     private ListView optionList;
     private static final String[] items={"Easy", "Median", "Hard"};
@@ -40,11 +45,10 @@ public class MainActivity extends AppCompatActivity {
         btnStart = findViewById(R.id.start);
         btnStop = findViewById(R.id.stop);
         stepCount = findViewById(R.id.stepCount);
-
+        start = false;
         optionList = findViewById(R.id.list);
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
         optionList.setAdapter(adapter);
-
         optionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -64,6 +68,27 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        btnStart.setOnClickListener(view->{
+            if(start==false){
+                start = true;
+                am.setStep(0);
+                stepCount.setText("Current Steps: "+am.getStep());
+            }
+        });
+        btnStop.setOnClickListener(view->{
+            start = false;
+        });
+
+        Handler handler =new Handler();
+        final Runnable r = new Runnable() {
+            public void run() {
+                handler.postDelayed(this, 1000);
+                if(start){
+                    stepCount.setText("Current Steps: "+am.getStep());
+                }
+            }
+        };
+        handler.postDelayed(r, 0000);
     }
 
 }
