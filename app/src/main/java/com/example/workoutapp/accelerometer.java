@@ -74,11 +74,13 @@ public class accelerometer {
             // if the acceleration is above a certain threshold
             if (acceleration > SIGNIFICANT_SHAKE) {
                 step++;
+                /*
                 if(flashMode) {
                     for (int i = 0; i < 4; i++) {
                         fl.negate();
                     }
                 }
+                 */
                 //df.format(x-lastX);
                 //df.format(y-lastY);
                 //df.format(z-lastZ);

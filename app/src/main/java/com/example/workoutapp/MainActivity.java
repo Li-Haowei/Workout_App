@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btnStart,btnStop;
     private Boolean start;
     private TextView stepCount;
+    private boolean flashMode;
     private ListView optionList;
     private static final String[] items={"Easy", "Median", "Hard"};
     private int currentMode;
@@ -122,9 +123,9 @@ public class MainActivity extends AppCompatActivity {
                     switch (currentMode){
                         case 1:
                             if (am.getStep() > 10) {
-                                am.flashMode(true);
+                                flashMode = true;
                             } else {
-                                am.flashMode(false);
+                                flashMode = false;
                             }
                             if (am.getStep() > 30) {
                                 mp1.start();
@@ -132,9 +133,9 @@ public class MainActivity extends AppCompatActivity {
                             break;
                         case 2:
                             if (am.getStep() > 30) {
-                                am.flashMode(true);
+                                flashMode = true;
                             } else {
-                                am.flashMode(false);
+                                flashMode = false;
                             }
                             if (am.getStep() > 45) {
                                 mp2.start();
@@ -142,14 +143,19 @@ public class MainActivity extends AppCompatActivity {
                             break;
                         case 3:
                             if (am.getStep() > 30) {
-                                am.flashMode(true);
+                                flashMode = true;
                             } else {
-                                am.flashMode(false);
+                                flashMode = false;
                             }
                             if (am.getStep() > 60) {
                                 mp3.start();
                             }
                             break;
+                    }
+                    if(flashMode) {
+                        for (int i = 0; i < 4; i++) {
+                            fl.negate();
+                        }
                     }
                     if (am.getStep() > 100) {
                         stepCount.setText("Current Steps: "+ 100);
@@ -171,6 +177,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                         btnStop.setEnabled(false);
                         optionList.setEnabled(true);
+                        flashMode=false;
                     }
                 }
             }
