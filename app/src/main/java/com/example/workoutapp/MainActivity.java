@@ -20,11 +20,13 @@ public class MainActivity extends AppCompatActivity {
     private Button btnStart,btnStop;
     private Boolean start;
     private TextView stepCount;
+    private TextView timer;
     private boolean flashMode;
     private ListView optionList;
     private static final String[] items={"Easy", "Median", "Hard"};
     private int currentMode;
     private ArrayAdapter<String> adapter;
+    private int seconds;
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         btnStart = findViewById(R.id.start);
         btnStop = findViewById(R.id.stop);
         stepCount = findViewById(R.id.stepCount);
+        timer = findViewById(R.id.timer);
         start = false;
         final MediaPlayer mp1 = MediaPlayer.create(this, R.raw.superman);
         final MediaPlayer mp2 = MediaPlayer.create(this, R.raw.chariotsoffire);
@@ -53,28 +56,25 @@ public class MainActivity extends AppCompatActivity {
                     case 0:
                         currentMode = 1;
                         Toast.makeText(MainActivity.this,R.string.easy,Toast.LENGTH_SHORT).show();
-                        am.setStep(0);
                         am.setForce(70000);
-                        stepCount.setText("Current Steps: " + am.getStep());
                         break;
                     case 1:
                         currentMode = 2;
                         Toast.makeText(MainActivity.this,R.string.median,Toast.LENGTH_SHORT).show();
-                        am.setStep(0);
                         am.setForce(100000);
-                        stepCount.setText("Current Steps: " + am.getStep());
                         break;
                     case 2:
                         currentMode = 3;
                         Toast.makeText(MainActivity.this,R.string.hard,Toast.LENGTH_SHORT).show();
-                        am.setStep(0);
                         am.setForce(130000);
-                        stepCount.setText("Current Steps: " + am.getStep());
                         break;
                     default:
                          break;
                 }
+                am.setStep(0);
                 btnStart.setEnabled(true);
+                stepCount.setText("Current Steps: " + am.getStep());
+                timer.setText("00:00");
             }
         });
         btnStart.setEnabled(false);
@@ -119,6 +119,8 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 handler.postDelayed(this, 1000);
                 if(start){
+                    seconds++;
+                    timer.setText(secondsConverter(seconds));
                     stepCount.setText("Current Steps: "+am.getStep());
                     switch (currentMode){
                         case 1:
@@ -158,6 +160,11 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                     if (am.getStep() > 100) {
+                        if(seconds<=120){
+                            Toast.makeText(MainActivity.this,"You are a rockstar",Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(MainActivity.this,"Great job, keep practicing to get faster.",Toast.LENGTH_SHORT).show();
+                        }
                         stepCount.setText("Current Steps: "+ 100);
                         start = false;
                         currentMode = 0;
@@ -178,11 +185,19 @@ public class MainActivity extends AppCompatActivity {
                         btnStop.setEnabled(false);
                         optionList.setEnabled(true);
                         flashMode=false;
+                        seconds=0;
                     }
                 }
             }
         };
         handler.postDelayed(r, 0000);
+    }
+    public String secondsConverter(int seconds){
+        String secs = seconds%60+"";
+        String mins = seconds/60+"";
+        if(secs.length()==1) secs = "0"+secs;
+        if(mins.length()==1) mins = "0"+mins;
+        return mins+":"+secs;
     }
 
 }
